@@ -57,4 +57,5 @@ The SmartBus Cashless Payment System aims to address these challenges by creatin
 ** Conclusion:
 
 The SmartBus Cashless Payment System using NFC technology will improve the efficiency of fare collection, enhance the user experience with real-time bus tracking and payment history, and provide administrators with a robust tool for managing the system. By eliminating traditional payment bottlenecks and offering a modern, scalable solution, this project will pave the way for a more streamlined and user-friendly urban transportation system.
-Reference: [CENG495_CCE_Final Report_Hussein_Mahmod.odt]
+
+Reference: [CENG495_CCE_Final Report_Hussein_Mahmod.odt]https://github.com/H-A-LION/Smart-Bus-Cashless-Payment-System-NFC-Scanning-With-Mobile-And-Web-Application-/blob/main/CENG495_CCE_Final%20Report_Hussein_Mahmod.odt
