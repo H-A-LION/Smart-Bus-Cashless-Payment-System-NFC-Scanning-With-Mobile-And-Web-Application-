@@ -1,50 +1,60 @@
-# SmartBus-Payment-Arduino-Android-App-Web-App
+** Project Title: SmartBus Cashless Payment System with NFC Scanning
 
-## Project Proposal:
+** Problem Statement:
 
-### Smart Bus Payment System: Arduino Implementation with Mobile Application Connected Via Wi-Fi
+Urban transportation systems, particularly public buses, often rely on outdated payment mechanisms such as cash transactions or paper tickets, which lead to inefficiencies like long wait times, cash handling errors, and difficulties in tracking payments and passenger data. These systems also limit the adoption of more advanced, convenient, and secure payment methods, hindering the modernization of public transport. Additionally, there is a growing demand from passengers for real-time information about buses, such as balance checks, payment history, and estimated arrival times.
 
-### Project Description:
+The SmartBus Cashless Payment System aims to address these challenges by creating a seamless, secure, and user-friendly digital solution that leverages **NFC technology** for contactless fare payments and integrates **GPS tracking** for real-time bus monitoring. The system includes:
 
-This project is a cashless bus payment system that integrates GPS-tracked buses, QR-based payments, and real-time bus arrival updates. It consists of two main interfaces:
+1. Bus-side Mobile App: A mobile app installed on the bus, which is equipped with an NFC reader and GPS tracking. This app facilitates the scanning of NFC-enabled cards (or smartphones) for payments and sends the NFC card ID along with GPS data to Firebase Firestore.
 
-#### 1. Customer View (Android App)
+2. Customer Mobile App: A mobile app for passengers to log in, view their balance and transaction history, and select the bus station they are waiting for. The app will also provide real-time updates on the estimated time of arrival (ETA) of the bus.
 
-- Customers log in through the Android app.
-- Customers can select a station through a **spinner** to check estimated bus arrival time.
-- GPS data from each bus (connected to an Arduino) provides real-time location updates.
-- Customers use their phone camera to **scan a QR code** for fare payment.
-- The app shows balance, transaction history, and payment confirmation.
-- Customers use a smart card to pay for bus rides instead of cashes.
-- The card can be recharged at specific offices and linked to mobile app.
-- Receive notifications about card usage.
+3. Admin Web App: A web-based platform that enables administrators to manage customer accounts, register new users, view account details, and track buses in real-time. Admins can also indicate bus station locations on a map (using OpenStreetMap) and monitor the current location of buses.
 
-#### 2. Admin View (Web App)
+** Objectives:
 
-- Admins log in through the **web application**.
-- They can **manage financial transactions**, including charging customer accounts.
-- Admins can **edit and manage station locations**.
-- The system keeps a record of all transactions.
-- Admins can monitor buses on a map based on their GPS data.
+1. Contactless Payments: Develop a mobile app for buses that integrates NFC scanning to enable quick, secure, and contactless payment processing. The system will automatically send transaction details (including NFC card IDs) to Firebase Firestore for secure storage and processing.
 
-### Technical Implementation:
+2. Real-Time GPS Tracking: The mobile app installed on the buses will also gather GPS data, sending real-time location updates to Firebase to track buses on the map and provide accurate ETAs for passengers.
 
-- **Arduino Uno R3** is used in buses, connected to **GPS (Neo-6MV2)** and **Wi-Fi (ESP-01 8266)**.
-- GPS in buses sends real-time location data to the **server**, which the Android app uses to display estimated bus arrival times.
-- Customers **scan a QR code** through the Android app for **cashless fare payment**.
-- The **admin web app** is used to manage payments, transactions, and station locations.
+3. Passenger Convenience: Develop a customer mobile app that allows users to easily log in, check their balance, review their payment history with timestamps, and select their current bus station to receive real-time bus arrival updates.
 
-### Database & Connectivity:
+4. Admin Control: Implement a web app for administrators to manage customer accounts, edit details, and track bus locations on the map. The admin app will use OpenStreetMap for station visualization and will allow the admin to interact with the system in real-time.
 
-- The system uses **Firebase** \*\* server\*\* for data storage.
-- The Android app and web app communicate with the database via a **REST API**.
-- **OpenStreetMap (OSM)** provides map services for tracking buses and station locations.
+5. Scalability and Integration: Ensure the system is scalable and can easily be integrated with existing bus networks, supporting both small and large public transportation operations.
 
-### Additional Features:
+6. Security and Efficiency: Implement secure authentication and data storage solutions to protect user information and payment details. The system must also ensure that all NFC transactions are fast, efficient, and accurate.
 
-- Customers can view transaction history and payment confirmations in the app.
-- Logout & account switch options are available.
+** Key Features:
 
-This project enhances public transport efficiency by integrating real-time tracking, mobile payments, and administrative management into a seamless system.
+1. Mobile App for Buses:
+   - NFC reader integration for fare collection.
+   - GPS tracker to capture bus location.
+   - Real-time data transmission to Firebase (payment details and GPS data).
+   - Seamless payment confirmation and user transaction notifications.
 
-mahmoud
+2. Mobile App for Passengers:
+   - User registration and login.
+   - Real-time balance and transaction history with timestamps.
+   - Station selection for waiting passengers.
+   - ETA updates for the next bus arrival.
+
+3. Web App for Admin:
+   - Admin user registration and login.
+   - Manage customer accounts, including the ability to view, edit, and delete accounts.
+   - Integration with OpenStreetMap to display bus stations and bus locations in real-time.
+   - Ability to register new customers and monitor transaction data.
+
+** Benefits:
+
+- Efficiency: Streamlining the fare payment process with NFC eliminates cash handling, reduces transaction times, and improves operational efficiency.
+- Convenience: Passengers can quickly and easily pay for their fare without the need for physical tickets or cash. They also benefit from real-time updates about bus arrivals and their transaction history.
+- Security: By using NFC technology and Firebase, the system ensures that transactions are secure and easily traceable.
+- Real-Time Data: GPS tracking allows both passengers and administrators to monitor bus locations, making the entire experience more transparent and predictable.
+- Scalability: The solution is scalable and can be easily adapted for larger cities or different bus routes by updating the web interface and mobile applications.
+
+** Conclusion:
+
+The SmartBus Cashless Payment System using NFC technology will improve the efficiency of fare collection, enhance the user experience with real-time bus tracking and payment history, and provide administrators with a robust tool for managing the system. By eliminating traditional payment bottlenecks and offering a modern, scalable solution, this project will pave the way for a more streamlined and user-friendly urban transportation system.
+Reference: [CENG495_CCE_Final Report_Hussein_Mahmod.odt]
