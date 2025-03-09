@@ -1,0 +1,10 @@
+This file is for pts to be shared for the build of the project:
+1 We delete the usage of php in webpage backend, and instead we will use node.js for several reasons:
+    - javascript is 100% will be used in frontend while it can be used in backend where this is a huge feature for us
+    - node.js is based on javascript.
+    - The usage of OSM (OpenStreaMap) will need node.js for backend control.
+2 The API (app prog interface) to be used for controling OSM will be "leaflet"
+3 You can find the api on  https://leafletjs.com/
+
+
+leave your notes here about your updates for this github repo
