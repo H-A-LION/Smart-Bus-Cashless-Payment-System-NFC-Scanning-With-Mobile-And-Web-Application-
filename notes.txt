@@ -5,6 +5,6 @@ This file is for pts to be shared for the build of the project:
     - The usage of OSM (OpenStreaMap) will need node.js for backend control.
 2 The API (app prog interface) to be used for controling OSM will be "leaflet"
 3 You can find the api on  https://leafletjs.com/
-
+4 firestore use nosql database lang, so we will learn nosql
 
 leave your notes here about your updates for this github repo
