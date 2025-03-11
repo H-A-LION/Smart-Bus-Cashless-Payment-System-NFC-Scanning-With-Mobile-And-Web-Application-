@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartBus Login</title>
+
+  <!--link to external css file-->
+  <link rel="stylesheet"  href="style.css">
+ 
+</head>
+<body>
+
+<form id="loginForm">
+  <div class="container">
+    <label for="uname"><b>Email/Phone</b></label>
+    <input type="text" placeholder="Enter email or phone" name="uname" required>
+
+    <label for="pswd"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="pswd" required>
+
+    <button type="submit">Login</button>
+    
+    <label>
+      <input type="checkbox" checked="checked" name="remember"> Remember me
+    </label>
+  </div>
+
+  <div class="container" style="background-color: #000000;">
+    <button type="button" class="cancelbtn">Cancel</button>
+    <span class="psw"><a href="#">Forgot password?</a></span>
+  </div>
+</form>
+<script type="module" src="app.js"></script>
+</body>
+</html>
+

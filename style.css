@@ -1,0 +1,97 @@
+
+    /* Background Body */
+    body {
+      background-image: url('SMART.jpg'); /* Replace with your image URL */
+      background-size: cover; /* Makes the image cover the entire page */
+      background-position: center; /* Centers the image */
+      background-repeat: no-repeat; /* Prevents the image from repeating */
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Form Styling */
+    form {
+      background-color: rgba(255, 255, 255, 0.8); /* White with opacity */
+      border: 3px solid #000000;
+      width: 100%;
+      max-width: 400px; /* Maximum width for the form */
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Input Fields */
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
+
+    /* Submit Button */
+    button {
+      background-color: #04AA6D;
+      color: white;
+      padding: 14px;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      border-radius: 5px;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    /* Cancel Button */
+    .cancelbtn {
+      background-color: #f44336;
+      padding: 10px 18px;
+      width: auto;
+      border-radius: 5px;
+      color: white;
+      font-size: 16px;
+    }
+
+    .cancelbtn:hover {
+      background-color: #e53935;
+    }
+
+    /* Text link for forgot password */
+    .psw {
+      float: right;
+      font-size: 14px;
+    }
+
+    .psw a {
+      color: #ccc;
+      text-decoration: none;
+    }
+
+    /* Centering the Form */
+    .container {
+      padding: 16px;
+      border-radius: 10px;
+    }
+
+    /* For Small Screens */
+    @media screen and (max-width: 600px) {
+      .container {
+        padding: 10px;
+      }
+      .psw {
+        display: block;
+        float: none;
+        text-align: center;
+      }
+    }
+  
