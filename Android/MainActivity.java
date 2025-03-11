@@ -21,4 +21,40 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
     }
+    public boolean Login(){
+        nameEditText =(EditText) findViewById(R.id.name_login_editText);
+        passwordEditText =(EditText) findViewById(R.id.password_login_editText);
+        String name=nameEditText.getText().toString();
+        String password=passwordEditText.getText().toString();
+        AccountHandler account=new AccountHandler(name,password);
+
+
+
+        return false;
+    }
+    private class AccountHandler{
+        String name;
+        String password;
+
+        public AccountHandler(String name , String password) {
+            this.name = name;
+            this.password=password;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
+    }
 }
