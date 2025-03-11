@@ -3,135 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Improved Layout</title>
+  <title>SmartBus Management</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <style>
-    /* General Reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f7f7f7;
-      padding: 20px;
-    }
-
-    /* Container for the buttons */
-    .row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: center;
-    }
-
-    /* Individual columns */
-    .column {
-      flex: 1 1 300px; /* Makes sure each column is flexible and has a minimum width of 300px */
-      padding: 10px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* Button Style */
-    .button {
-      border-radius: 4px;
-      border: none;
-      color: #fff;
-      text-align: center;
-      font-size: 18px;
-      padding: 20px;
-      width: 250px;
-      transition: all 0.3s ease;
-      cursor: pointer;
-      margin: 5px 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-transform: uppercase;
-      font-weight: bold;
-    }
-
-    .button span {
-      cursor: pointer;
-      position: relative;
-      transition: padding-right 0.5s ease;
-    }
-
-    .button span:after {
-      content: '\00bb';
-      position: absolute;
-      opacity: 0;
-      top: 0;
-      right: -20px;
-      transition: 0.5s;
-    }
-
-    .button:hover span {
-      padding-right: 25px;
-    }
-
-    .button:hover span:after {
-      opacity: 1;
-      right: 0;
-    }
-
-    /* Button color styles */
-    .button.register {
-      background-color: #ff5050;
-    }
-
-    .button.agent-info {
-      background-color: #66ff99;
-    }
-
-    .button.map {
-      background-color: #0066ff;
-    }
-
-    /* View toggle buttons */
-    .view-toggle-buttons {
-      margin-bottom: 20px;
-      text-align: center;
-    }
-
-    .view-toggle-buttons button {
-      padding: 10px 20px;
-      font-size: 18px;
-      cursor: pointer;
-      margin: 0 10px;
-      border: none;
-      background-color: #fff;
-      border-radius: 4px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      transition: background-color 0.3s ease;
-    }
-
-    .view-toggle-buttons button:hover {
-      background-color: #f0f0f0;
-    }
-  </style>
+  <link rel="stylesheet" href="style_of_Admin_page.css">
+  
   <script>
     // Get the elements with class="column"
     var elements = document.getElementsByClassName("column");
 
-    // Declare a loop variable
-    var i;
-
-    // List View
+    // Function for List View
     function listView() {
-      for (i = 0; i < elements.length; i++) {
+      for (var i = 0; i < elements.length; i++) {
         elements[i].style.flex = "1 1 100%"; // Full width for list view
       }
     }
 
-    // Grid View
+    // Function for Grid View
     function gridView() {
-      for (i = 0; i < elements.length; i++) {
+      for (var i = 0; i < elements.length; i++) {
         elements[i].style.flex = "1 1 300px"; // Default grid view with flexible columns
       }
     }
@@ -142,6 +31,7 @@
   <!-- View toggle buttons -->
   <div class="view-toggle-buttons">
     <button onclick="listView()"><i class="fa fa-bars"></i> List</button>
+   
     <button onclick="gridView()"><i class="fa fa-th-large"></i> Grid</button>
   </div>
 
