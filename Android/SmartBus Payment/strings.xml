@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">SmartBusPayment</string>
+    <string name="show_transaction">show transaction</string>
+</resources>
