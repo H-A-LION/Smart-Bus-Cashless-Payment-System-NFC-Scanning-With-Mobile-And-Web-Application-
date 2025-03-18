@@ -1,0 +1,10 @@
+{
+  "stationId": "string", // Unique station ID
+  "name": "string",
+  "location": {
+    "latitude": "number",
+    "longitude": "number"
+  },
+  "routeId": "string" // Linked route ID
+}
+

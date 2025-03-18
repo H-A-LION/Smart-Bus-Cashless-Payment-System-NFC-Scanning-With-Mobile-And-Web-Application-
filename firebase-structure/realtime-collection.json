@@ -1,0 +1,43 @@
+{
+  "buses": {
+    "busId1": {
+      "driverName": "string",
+      "routeId": "string",
+      "currentLocation": {
+        "latitude": "number",
+        "longitude": "number",
+        "timestamp": "timestamp" // Last update time
+      },
+      "status": "string" // "active", "inactive", "offline"
+    },
+    "busId2": { ... }
+  },
+  "routes": {
+    "routeId1": {
+      "name": "string",
+      "direction": "string",
+      "stations": {
+        "stationId1": {
+          "name": "string",
+          "location": {
+            "latitude": "number",
+            "longitude": "number"
+          }
+        },
+        "stationId2": { ... }
+      }
+    },
+    "routeId2": { ... }
+  },
+  "stations": {
+    "stationId1": {
+      "name": "string",
+      "location": {
+        "latitude": "number",
+        "longitude": "number"
+      },
+      "routeId": "string"
+    },
+    "stationId2": { ... }
+  }
+}

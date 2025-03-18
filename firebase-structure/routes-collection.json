@@ -1,0 +1,7 @@
+{
+  "routeId": "string", // Unique route ID
+  "name": "string",
+  "direction": "string", // "north", "south", etc.
+  "stations": ["stationId1", "stationId2", ...], // Array of station IDs
+  "buses": ["busId1", "busId2", ...] // Array of bus IDs
+}

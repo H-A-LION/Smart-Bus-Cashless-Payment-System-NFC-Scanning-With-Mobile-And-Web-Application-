@@ -1,0 +1,11 @@
+{
+  "busId": "string", // Unique bus ID
+  "driverName": "string",
+  "currentLocation": {
+    "latitude": "number",
+    "longitude": "number"
+  },
+  "routeId": "string", // Linked route ID
+  "lastUpdated": "timestamp" // Last GPS update time
+}
+

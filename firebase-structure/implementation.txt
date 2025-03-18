@@ -1,0 +1,69 @@
+3.1 NFC Scanner Android App (on the Bus)
+
+    GPS Updates:
+
+        Use Android’s LocationManager or FusedLocationProviderClient to get real-time GPS coordinates.
+
+        Push updates to the Realtime Database under the buses/busId/currentLocation node.
+
+        Example code:java
+        DatabaseReference busRef = FirebaseDatabase.getInstance().getReference("buses/busId1");
+	Location currentLocation = ...; // Get current location
+	Map<String, Object> updates = new HashMap<>();
+	updates.put("currentLocation/latitude", currentLocation.getLatitude());
+	updates.put("currentLocation/longitude", currentLocation.getLongitude());
+	updates.put("currentLocation/timestamp", ServerValue.TIMESTAMP);
+	busRef.updateChildren(updates);
+
+3.2 Customer Android App
+
+    Real-Time Bus Tracking:
+
+        Listen to the currentLocation node of the bus to track its real-time location.
+
+        Example code:java
+        DatabaseReference busLocationRef = FirebaseDatabase.getInstance().getReference("buses/busId1/currentLocation");
+	busLocationRef.addValueEventListener(new ValueEventListener() {
+	  @Override
+	  public void onDataChange(DataSnapshot dataSnapshot) {
+	    double latitude = dataSnapshot.child("latitude").getValue(Double.class);
+	    double longitude = dataSnapshot.child("longitude").getValue(Double.class);
+	    long timestamp = dataSnapshot.child("timestamp").getValue(Long.class);
+	    // Update UI with bus location
+	  }
+
+	  @Override
+	  public void onCancelled(DatabaseError databaseError) {
+	    // Handle errors
+	  }
+	});
+	
+	ETA Calculation:
+
+    Use the bus’s current location and the station’s location (from the stations node) to calculate the ETA.
+
+    Example:java
+    Location busLocation = ...; // Get bus location from Realtime Database
+	Location stationLocation = ...; // Get station location from Realtime Database
+	float distance = busLocation.distanceTo(stationLocation); // Distance in meters
+	float speed = 50; // Assume bus speed in km/h
+	float eta = (distance / 1000) / speed; // ETA in hours
+3.3 Admin Web App
+
+    Monitor Buses:
+
+        Listen to the buses node to monitor all buses in real-time.
+
+        Example:javascript
+        const busesRef = firebase.database().ref("buses");
+	busesRef.on("value", (snapshot) => {
+	  snapshot.forEach((busSnapshot) => {
+	    const busId = busSnapshot.key;
+	    const busData = busSnapshot.val();
+	    console.log(`Bus ${busId} is at ${busData.currentLocation.latitude}, ${busData.currentLocation.longitude}`);
+	  });
+	});
+	Manage Routes and Stations:
+
+    Add, update, or delete routes and stations in the routes and stations nodes.
+   

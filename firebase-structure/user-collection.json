@@ -1,0 +1,11 @@
+{
+  "userId": "string", // Unique ID for the user
+  "name": "string",
+  "email": "string",
+  "phone": "string",
+  "passwordHash": "string", // Hashed password for authentication
+  "role": "string", // "admin" or "customer"
+  "balance": "number", // Available balance for customers
+  "createdAt": "timestamp", // Account creation date
+  "updatedAt": "timestamp" // Last update date
+}

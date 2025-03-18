@@ -1,0 +1,18 @@
+{
+  "rules": {
+    "buses": {
+      "$busId": {
+        ".read": "auth != null",
+        ".write": "auth != null && auth.token.role == 'admin'"
+      }
+    },
+    "routes": {
+      ".read": "auth != null",
+      ".write": "auth != null && auth.token.role == 'admin'"
+    },
+    "stations": {
+      ".read": "auth != null",
+      ".write": "auth != null && auth.token.role == 'admin'"
+    }
+  }
+}

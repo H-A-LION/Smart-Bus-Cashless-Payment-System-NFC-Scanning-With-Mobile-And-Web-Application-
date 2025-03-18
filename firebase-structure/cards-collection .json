@@ -1,0 +1,8 @@
+{
+  "cardId": "string", // Unique NFC card ID
+  "userId": "string", // Linked user ID
+  "balance": "number", // Available balance on the card
+  "isActive": "boolean", // Card status
+  "createdAt": "timestamp",
+  "updatedAt": "timestamp"
+}
