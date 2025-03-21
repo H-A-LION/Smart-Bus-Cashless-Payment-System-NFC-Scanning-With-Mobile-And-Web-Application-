@@ -1,7 +1,7 @@
 package com.example.smartbuspayment;
-
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-
+import android.Manifest;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -23,6 +23,17 @@ public class MainActivity2 extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        // Check if camera permission is granted
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            // If permission is not granted, request it
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA},
+                    CAMERA_PERMISSION_REQUEST_CODE);
+        } else {
+            // Permission is already granted, proceed with camera functionality
+            openCamera();
+        }
 
 
 
@@ -50,4 +61,27 @@ public class MainActivity2 extends AppCompatActivity {
                 }
             }
     );
+    private void makePayment(){
+
+
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, proceed with camera functionality
+                openCamera();
+            } else {
+                // Permission denied, show a message to the user
+                Toast.makeText(this, "Camera permission is required to use this feature.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+    private void openCamera() {
+        // Start the camera functionality here
+
+
+    }
 }
