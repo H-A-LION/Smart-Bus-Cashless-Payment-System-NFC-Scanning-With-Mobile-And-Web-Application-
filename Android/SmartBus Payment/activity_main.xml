@@ -5,68 +5,69 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    >
+    tools:context=".MainActivity">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
         android:alpha="0.8"
-        android:src="@drawable/bus"/>
+        android:scaleType="centerCrop"
+        android:src="@drawable/bus_icon"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="20dp"
+        android:layout_centerInParent="true"
         android:gravity="center"
         android:orientation="vertical"
-        android:layout_centerInParent="true">
+        android:padding="10dp"
+        android:layout_marginTop="10dp">
+    <EditText
+        android:id="@+id/name_login_editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:layout_marginRight="35px"
+        android:background="@android:drawable/editbox_background" 
+        android:drawableLeft="@drawable/baseline_person_pin_24" //you need to import from drwable
+        android:hint="Username"
+        android:padding="12dp"
+        android:textColor="#040404"
+        android:textColorHint="#040404" />
 
-        <EditText
-            android:id="@+id/name_login_editText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Username"
-            android:padding="12dp"
-            android:background="@android:drawable/editbox_background"
-            android:textColorHint="#040404"
-            android:textColor="#040404"
-            android:drawableLeft="@drawable/baseline_account_circle_24"
-            android:layout_marginRight="35px"
-            />
+    <EditText
+        android:id="@+id/password_login_editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="35px"
+        android:background="@android:drawable/editbox_background"
+        android:drawableLeft="@drawable/baseline_lock_24" //you need to import from drwable
+        android:hint="passowrd"
+        android:inputType="textPassword"
+        android:padding="12dp"
+        android:textColor="@color/black" />
 
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="8dp"
+        android:backgroundTint="#FF9800"
+        android:layout_marginBottom="15dp"
+        android:text="Login"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp"
+        android:onClick=""/>
 
-        <EditText
-            android:id="@+id/password_login_editText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="passowrd"
-            android:textColorHint="040404"
-            android:background="@android:drawable/editbox_background"
-            android:inputType="textPassword"
-            android:textColor="@color/_040404"
-            android:layout_marginRight="35dp"
-            android:padding="12dp"
-
-            />
-
-        <Button
-            android:id="@+id/btnLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Login"
-            android:backgroundTint="#FF9800"
-            android:textColor="#FFFFFF"
-            android:layout_marginTop="15dp"
-            android:layout_marginRight="8dp"
-            android:onClick="second_page"/>
-        <Button
-
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Sign up"/>
-
+    <Button
+        android:onClick="gotoSignup"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Sign up"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="8dp"
+        android:textSize="20dp"/>
     </LinearLayout>
 
 </RelativeLayout>
