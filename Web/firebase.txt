@@ -1,0 +1,54 @@
+//JS
+//read
+db.collection("users").doc("user1").get()
+.then((doc) => {
+    if (doc.exists) {
+        console.log("Document data:", doc.data());
+    } else {
+        console.log("No such document!");
+    }
+})
+.catch((error) => {
+    console.log("Error getting document:", error);
+});
+
+
+
+const userId = rtdb.ref("users").push().key;
+rtdb.ref("users/" + userId).set({
+    name: "John Doe",
+    email: "john@example.com"
+})
+.then(() => {
+    console.log("Data successfully written!");
+})
+.catch((error) => {
+    console.error("Error writing data: ", error);
+});
+
+
+
+
+//Write
+db.collection("users").doc("user1").set({
+    name: "John Doe",
+    email: "john@example.com"
+})
+.then(() => {
+    console.log("Document successfully written!");
+})
+.catch((error) => {
+    console.error("Error writing document: ", error);
+});
+
+
+
+
+rtdb.ref("users/" + userId).once("value")
+.then((snapshot) => {
+    const user = snapshot.val();
+    console.log("Name: " + user.name + ", Email: " + user.email);
+})
+.catch((error) => {
+    console.error("Error reading data: ", error);
+});
