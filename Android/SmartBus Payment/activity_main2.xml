@@ -1,114 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity2">
+    tools:context=".MainActivity2"
+    android:background="@drawable/bus"
+    >
 
-    <!-- Background Image with overlay for better text visibility -->
-    <ImageView
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/bus"
-        android:scaleType="centerCrop"
-        android:alpha="0.8" />
+        android:layout_height="53dp"
+        android:gravity="center"
+        android:text="Balance"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_margin="8dp"
+        android:background="@drawable/rounded_corner"
+        />
 
-    <!-- Color overlay to improve text readability -->
-    <View
+    <TextView
+        android:id="@+id/balance"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#80FFFFFF" />
+        android:layout_height="150dp"
+        android:layout_margin="8dp"
+        android:background="@drawable/rounded_corner_money"
+        android:gravity="center"
+        android:text="0.00"
+        android:inputType="numberDecimal"
+        android:textColor="@color/black"
+        android:textSize="80sp"
+        android:textStyle="bold"
 
-    <!-- Main content in a card for better visibility -->
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="8dp"
-        android:layout_centerInParent="true">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <!-- Balance Section -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Balance"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:layout_marginBottom="8dp"/>
-
-            <TextView
-                android:id="@+id/balance"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="0.00"
-                android:inputType="numberDecimal"
-                android:textColor="#2E7D32"
-                android:textSize="48sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="24dp" />
-
-            <!-- Transaction Button -->
-            <Button
-                android:id="@+id/show_transaction"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Transaction History"
-                android:textSize="16sp"
-                android:layout_marginVertical="8dp"
-                android:padding="12dp"
-                app:cornerRadius="8dp"/>
-
-            <!-- Station Selection -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="16dp"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Select Station"
-                    android:padding="8dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black" />
-
-                <Spinner
-                    android:id="@+id/station_spinner"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="8dp"
-                    android:background="@android:drawable/btn_dropdown"
-                    android:spinnerMode="dropdown" />
-            </LinearLayout>
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-    <!-- QR Code Scanner Button -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/scanQrButton"
+        />
+    <Button
+        android:id="@+id/show_transaction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="24dp"
-        android:clickable="true"
-        android:focusable="true"
-        app:srcCompat="@android:drawable/ic_menu_camera"
-        app:tint="@android:color/white"
-        app:backgroundTint="#FF9800" />
-</RelativeLayout>
+        android:text="@string/show_transaction"
+        android:textSize="20sp"
+        android:layout_marginVertical="8dp"
+        android:layout_marginHorizontal="30dp"
+        />
+
+    <TableRow
+        android:padding="3dp">
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Select Station"
+            android:padding="3dp"
+            android:layout_margin="2dp"
+            android:background="@color/design_default_color_primary"
+            android:textColor="@color/white"
+        />
+        <Spinner
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:background="@color/material_dynamic_neutral80"
+
+        />
+    </TableRow>
+
+    <RelativeLayout>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:onClick="openCamera"
+            app:srcCompat="@android:drawable/ic_menu_camera"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="16dp"
+            />
+    </RelativeLayout>
+
+</TableLayout>
