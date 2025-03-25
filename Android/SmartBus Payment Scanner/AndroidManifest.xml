@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" >
-
-
+    <uses-feature android:name="android.hardware.nfc" android:required="true" />
+    <uses-permission android:name="android.permission.NFC"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-feature android:name="android.hardware.location.gps" android:required="true"/>
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -14,22 +16,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartBusPaymentScanner"
         tools:targetApi="31" >
-        <uses-feature android:name="android.hardware.nfc" android:required="true"
-            tools:ignore="WrongManifestParent" />
-        <uses-permission android:name="android.permission.NFC"
-            tools:ignore="WrongManifestParent" />
-        <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"
-            tools:ignore="WrongManifestParent" />
-        <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"
-            tools:ignore="WrongManifestParent" />
-        <uses-feature android:name="android.hardware.location.gps" android:required="true"
-            tools:ignore="WrongManifestParent" />
-
-
-
-
-
-
         <activity
             android:name=".MainActivity"
             android:exported="true" >
