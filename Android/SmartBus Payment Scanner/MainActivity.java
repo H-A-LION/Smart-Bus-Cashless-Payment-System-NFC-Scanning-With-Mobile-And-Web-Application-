@@ -27,9 +27,6 @@ public class MainActivity extends AppCompatActivity {
 
     private DatabaseReference databaseReference;
     private TextView paymentStatus;
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,8 +47,6 @@ public class MainActivity extends AppCompatActivity {
         paymentStatus = (TextView) findViewById(R.id.payment_verified);
         paymentStatus.setText("Payment Verified");
         paymentStatus.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
-
-
 
     }
     private void getLocationUpdates() {
@@ -94,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
     };
     private boolean paymentVerified(){
 
-
         return false;
     }
     /*
@@ -105,6 +99,4 @@ public class MainActivity extends AppCompatActivity {
      }
 
     * */
-
-
 }
