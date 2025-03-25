@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".signup_page">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="24dp">
-
+    tools:context=".SignUpActivity"
+    android:padding="24dp"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="match_parent"
@@ -20,101 +17,73 @@
         android:text="Create Account"
         android:textAlignment="center"
         android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="24dp" />
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilUsername"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:textStyle="bold"/>
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:id="@+id/Username"
         android:hint="Username"
-        app:layout_constraintTop_toBottomOf="@id/tvTitle">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etUsername"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilEmail"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_marginVertical="10dp"
+        android:padding="12dp"
+        android:textSize="20sp"
+        android:background="@android:drawable/editbox_background"
+        android:inputType="text"
+        />
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:id="@+id/etEmail"
         android:hint="Email Address"
-        app:layout_constraintTop_toBottomOf="@id/tilUsername">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress" />
-    </com.google.android.material.textfield.TextInputLayout>
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilPhone"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_marginVertical="10dp"
+        android:padding="12dp"
+        android:textSize="20sp"
+        android:background="@android:drawable/editbox_background"
+        android:inputType="textEmailAddress"
+        />
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:id="@+id/etPhne"
         android:hint="Phone Number"
-        app:layout_constraintTop_toBottomOf="@id/tilEmail">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etPhone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="phone" />
-    </com.google.android.material.textfield.TextInputLayout>
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilPassword"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_marginVertical="10dp"
+        android:padding="12dp"
+        android:textSize="20sp"
+        android:background="@android:drawable/editbox_background"
+        android:inputType="phone"
+        />
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:id="@+id/etPassword"
         android:hint="Password"
-        app:endIconMode="password_toggle"
-        app:layout_constraintTop_toBottomOf="@id/tilPhone">
+        android:layout_marginVertical="10dp"
+        android:padding="12dp"
+        android:textSize="20sp"
+        android:background="@android:drawable/editbox_background"
+        android:inputType="textPassword"
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!-- Confirm Password Field -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilConfirmPassword"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        />
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:id="@+id/etConfirmPassword"
         android:hint="Confirm Password"
-        app:endIconMode="password_toggle"
-        app:layout_constraintTop_toBottomOf="@id/tilPassword">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etConfirmPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword" />
-    </com.google.android.material.textfield.TextInputLayout>
+        android:layout_marginVertical="10dp"
+        android:padding="12dp"
+        android:textSize="20sp"
+        android:background="@android:drawable/editbox_background"
+        android:inputType="text"
+        />
 
-        <!-- Sign Up Button -->
-        <Button
-            android:id="@+id/signup_buttn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="52dp"
-            android:padding="12dp"
-            android:text="Sign Up"
-            android:textSize="16sp"
-            app:layout_constraintTop_toBottomOf="@id/tilConfirmPassword"
-            tools:layout_editor_absoluteX="32dp" />
+            <!-- Sign Up Button -->
+    <Button
+        android:id="@+id/signup_buttn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:text="Sign Up"
+        android:onClick="signup"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="32dp" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</ScrollView>
+</LinearLayout>
