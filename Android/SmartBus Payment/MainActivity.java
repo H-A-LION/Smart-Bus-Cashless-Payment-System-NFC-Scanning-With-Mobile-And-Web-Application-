@@ -7,6 +7,8 @@ import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+//import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -23,6 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private EditText nameEditText,passwordEditText;
+    private Button btnLogin, btnSignUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,40 +37,58 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        // Initialize Firebase Auth
+        auth = FirebaseAuth.getInstance();
+
+        // Check if user is already logged in
+        if (auth.getCurrentUser() != null) {
+            startActivity(new Intent(MainActivity.this, MainActivity2.class));
+            finish();
+        }
+
+        // Initialize views
+        nameEditText = findViewById(R.id.name_login_editText);
+        passwordEditText = findViewById(R.id.password_login_editText);
+        btnLogin = findViewById(R.id.btnLogin);
+        btnSignUp = findViewById(R.id.signup_edittext);
+
+        // Set click listeners
+        btnLogin.setOnClickListener(v -> login());
+        btnSignUp.setOnClickListener(v -> signup());
     }
     public void login(){
-        auth=FirebaseAuth.getInstance();
-        nameEditText =(EditText) findViewById(R.id.name_login_editText);
-        passwordEditText =(EditText) findViewById(R.id.password_login_editText);
-        String User=nameEditText.getText().toString().trim();
+        String email=nameEditText.getText().toString().trim();
         String password=passwordEditText.getText().toString().trim();
+        // Input validation
+        if (email.isEmpty()) {
+            nameEditText.setError("Email cannot be empty");
+            return;
+        }
+        if (password.isEmpty()) {
+            passwordEditText.setError("Password cannot be empty");
+            return;
+        }
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            nameEditText.setError("Invalid email");
+        }
 
-        if (!User.isEmpty()){
-            if (!password.isEmpty()){
-                auth.signInWithEmailAndPassword(User,password)
-                        .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                            @Override
-                            public void onSuccess(AuthResult authResult) {
-                                Toast.makeText(MainActivity.this,"Login Successful",Toast.LENGTH_LONG).show();
-                                startActivity(new Intent(MainActivity.this,MainActivity2.class));
+        // Authenticate with Firebase
+
+
+                auth.signInWithEmailAndPassword(email,password)
+                        .addOnCompleteListener(this, task -> {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(MainActivity.this, MainActivity2.class));
                                 finish();
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(MainActivity.this,"Login Failed",Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(MainActivity.this, "Authentication failed: " +
+                                        task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
 
-            }
-        }else{
-            if (User.isEmpty()) {
-                nameEditText.setError("Email cannot be Empty!!");
-            }
-            if (password.isEmpty()) {
-                passwordEditText.setError("Password cannot be Empty");
-            }
-        }
+
     }
     public void signup(){
         startActivity(new Intent(MainActivity.this, SignUpActivity.class));
