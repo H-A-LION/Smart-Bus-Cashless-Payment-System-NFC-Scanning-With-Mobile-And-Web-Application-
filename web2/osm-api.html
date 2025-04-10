@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartBus - Map Interface</title>
+  <link rel="stylesheet" href="css/osm.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+  <header class="map-header">
+    <h1>SmartBus Map Interface</h1>
+    <p>Select an action to manage the transportation system</p>
+  </header>
+
+  <main class="map-interface">
+    <div class="action-buttons">
+      <button onclick="location.href='map-management.html?action=stations'">
+        <i class="fas fa-map-marker-alt"></i> Manage Stations
+      </button>
+      <button onclick="location.href='map-management.html?action=buses'">
+        <i class="fas fa-bus"></i> Track Buses
+      </button>
+      <button onclick="location.href='map-management.html?action=routes'">
+        <i class="fas fa-route"></i> View Routes
+      </button>
+    </div>
+
+    <div class="back-button">
+      <button onclick="location.href='admin-dashboard.html'">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+      </button>
+    </div>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+  <!-- <script src="js/osm.js"></script> -->
+  <script src="js/main.js" type="module"></script>
+</body>
+</html>

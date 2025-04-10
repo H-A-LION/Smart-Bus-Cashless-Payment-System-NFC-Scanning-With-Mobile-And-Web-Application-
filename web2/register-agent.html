@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register Agent - SmartBus</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+  <header class="admin-header">
+    <div class="header-left">
+      <img src="images/logo.png" alt="SmartBus Logo" class="logo">
+      <h1>Register New Agent</h1>
+    </div>
+    <div class="header-right">
+      <button onclick="location.href='admin-dashboard.html'">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+      </button>
+    </div>
+  </header>
+
+  <main class="form-container">
+    <form id="agentForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="agentName">Full Name</label>
+          <input type="text" id="agentName" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="agentEmail">Email</label>
+          <input type="email" id="agentEmail" required>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="agentPhone">Phone Number</label>
+          <input type="tel" id="agentPhone" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="agentBalance">Initial Balance</label>
+          <input type="number" id="agentBalance" min="0" step="0.01" required>
+        </div>
+      </div>
+      
+      <div class="form-actions">
+        <button type="reset" class="btn-secondary">Clear</button>
+        <button type="submit" class="btn-primary">Register Agent</button>
+      </div>
+    </form>
+  </main>
+
+  <!-- <script type="module" src="js/agent.js"></script> -->
+  <script src="js/main.js" type="module"></script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bus Management - SmartBus</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+</head>
+<body>
+  <header class="admin-header">
+    <div class="header-left">
+      <img src="images/logo.png" alt="SmartBus Logo" class="logo">
+      <h1>Bus Management</h1>
+    </div>
+    <div class="header-right">
+      <button onclick="location.href='admin-dashboard.html'">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+      </button>
+    </div>
+  </header>
+
+  <main class="management-container">
+    <div class="management-actions">
+      <button id="addBusBtn" class="btn-primary">
+        <i class="fas fa-plus"></i> Add Bus
+      </button>
+      <input type="text" id="searchBus" placeholder="Search buses...">
+    </div>
+
+    <table id="busTable" class="display">
+      <thead>
+        <tr>
+          <th>Bus ID</th>
+          <th>Location</th>
+          <th>Last Updated</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </main>
+
+  <!-- Add Bus Modal -->
+  <div id="busModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Register Bus</h2>
+      <form id="busForm">
+        <div class="form-group">
+          <label for="busId">Bus ID</label>
+          <input type="text" id="busId" required>
+        </div>
+        <div class="form-actions">
+          <button type="button" id="cancelBusBtn" class="btn-secondary">Cancel</button>
+          <button type="submit" class="btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/main.js" type="module"></script>
+  <!-- <script src="js/bus.js" type="module"></script>
+  <script src="js/auth.js" type="module"></script> -->
+</body>
+</html>

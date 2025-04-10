@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NFC Management - SmartBus</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+</head>
+<body>
+  <header class="admin-header">
+    <div class="header-left">
+      <img src="images/logo.png" alt="SmartBus Logo" class="logo">
+      <h1>NFC Card Management</h1>
+    </div>
+    <div class="header-right">
+      
+      <button onclick="location.href='admin-dashboard.html'">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+      </button>
+    </div>
+  </header>
+
+  <main class="management-container">
+    <div class="management-actions">
+      <button id="addNfcBtn" class="btn-primary">
+        <i class="fas fa-plus"></i> Add NFC Card
+      </button>
+      <input type="text" id="searchNfc" placeholder="Search cards...">
+    </div>
+
+    <table id="nfcTable" class="display">
+      <thead>
+        <tr>
+          <th>Card ID</th>
+          <th>User ID</th>
+          <th>Balance</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </main>
+
+  <!-- Add NFC Modal -->
+  <div id="nfcModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Register NFC Card</h2>
+      <form id="nfcForm">
+        <div class="form-group">
+          <label for="cardId">Card ID</label>
+          <input type="text" id="cardId" required>
+        </div>
+        <div class="form-group">
+          <label for="userId">Assign to User (Optional)</label>
+          <input type="text" id="userId">
+        </div>
+        <div class="form-actions">
+          <button type="button" id="cancelNfcBtn" class="btn-secondary">Cancel</button>
+          <button type="submit" class="btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script src="js/main.js" type="module"></script>
+  <!-- <script src="js/nfc.js" type="module"></script>
+  <script src="js/auth.js" type="module"></script> -->
+</body>
+</html>
