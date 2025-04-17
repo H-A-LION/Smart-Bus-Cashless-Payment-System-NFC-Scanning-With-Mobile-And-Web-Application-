@@ -1,8 +1,12 @@
 package com.example.smartbuspayment;
 
+import static com.example.smartbuspayment.PasswordValidator.*;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.text.TextUtils;
 
@@ -17,10 +21,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.firebase.firestore.FirebaseFirestore;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +34,8 @@ public class SignUpActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private DatabaseReference mDatabase;
     private FirebaseFirestore db;
-    private EditText etUsername,etEmail,etPhone, etPassword,etConfirmPassword,signup_btn;
+    private EditText etUsername,etEmail,etPhone, etPassword,etConfirmPassword;
+    private Button buttonRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +57,10 @@ public class SignUpActivity extends AppCompatActivity {
         etPhone = findViewById(R.id.etPhne);
         etPassword = findViewById(R.id.etPassword);
         etConfirmPassword = findViewById(R.id.etConfirmPassword);
+        buttonRegister=findViewById(R.id.signup_buttn);
 
         // Set click listener for signup button
-        findViewById(R.id.signup_buttn).setOnClickListener(v -> signup());
+        buttonRegister.setOnClickListener(v -> signup());
 
     }
 
@@ -66,59 +74,92 @@ public class SignUpActivity extends AppCompatActivity {
         // Input validation
         if (TextUtils.isEmpty(username)) {
             etUsername.setError("Username is required");
+            etUsername.requestFocus();
             return;
         }
-        if (TextUtils.isEmpty(email)) {
+        if (TextUtils.isEmpty(email) || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             etEmail.setError("Email is required");
+            etEmail.requestFocus();
             return;
         }
-        if (TextUtils.isEmpty(phone)) {
+        if (TextUtils.isEmpty(phone) || phone.length() < 10) {
             etPhone.setError("Phone is required");
             return;
         }
         if (TextUtils.isEmpty(password)) {
             etPassword.setError("Password is required");
+            etPassword.requestFocus();
             return;
         }
-        if (password.length() < 6) {
-            etPassword.setError("Password must be at least 6 characters");
+
+        PasswordStrength strength = checkPasswordStrength(password);
+
+        if (strength.strengthLevel == StrengthLevel.WEAK) {
+            etPassword.setError(strength.errorMessage);
             return;
         }
+
+        // Optionally show strength feedback to user
+        if (strength.strengthLevel == StrengthLevel.MEDIUM) {
+            Toast.makeText(this, "Your password is decent, but could be stronger", Toast.LENGTH_SHORT).show();
+        }
+
         if (!password.equals(confirmPassword)) {
             etConfirmPassword.setError("Passwords do not match");
+            etConfirmPassword.requestFocus();
             return;
         }
-        auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(this,new OnCompleteListener<AuthResult>() {
+        auth.createUserWithEmailAndPassword(email,password)
+                .addOnCompleteListener(this,new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
                     // Save additional user data to Firestore
-                    String userId = auth.getCurrentUser().getUid();
-                    Map<String, Object> user = new HashMap<>();
-                    user.put("username", username);
-                    user.put("email", email);
-                    user.put("phone", phone);
-                    user.put("balance", 0.0); // Initial balance
-
-                    db.collection("agents").document(userId)
-                            .set(user)
-                            .addOnSuccessListener(aVoid -> {
-                                Toast.makeText(SignUpActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(SignUpActivity.this, MainActivity2.class));
-                                finish();
-                            })
-                            .addOnFailureListener(e -> {
-                                Toast.makeText(SignUpActivity.this, "Error saving user data", Toast.LENGTH_SHORT).show();
-                            });
-
-                    Toast.makeText(SignUpActivity.this,"Signup Successful",Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(SignUpActivity.this,MainActivity2.class));
+                    FirebaseUser user=auth.getCurrentUser();
+                    Map<String, Object> userData = new HashMap<>();
+                    userData.put("username", username);
+                    userData.put("email", email);
+                    userData.put("phone", phone);
+                    userData.put("balance", 0.0); // Initial balance
+                    userData.put("role","passenger");
+                    sendEmailVerification("agents",user,userData);
                 }
                 else {
                             Toast.makeText(SignUpActivity.this,"SignUP Failed: "+task.getException().getMessage(),Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+    private void sendEmailVerification(String collectionName, FirebaseUser user, Map<String,Object> mapData) {
+        String userId=user.getUid();
+
+        if (user != null) {
+            user.sendEmailVerification()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            db.collection(collectionName).document(userId)
+                                    .set(mapData)
+                                    .addOnSuccessListener(aVoid -> {
+                                        Toast.makeText(SignUpActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(SignUpActivity.this, MainActivity2.class));
+                                        finish();
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Toast.makeText(SignUpActivity.this, "Error saving user data", Toast.LENGTH_SHORT).show();
+                                    });
+
+                            Toast.makeText(SignUpActivity.this,"Signup Successful",Toast.LENGTH_LONG).show();
+                            Toast.makeText(SignUpActivity.this, "Verification email sent to " + user.getEmail(), Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(SignUpActivity.this,MainActivity.class));
+
+
+                        } else {
+                            user.delete();
+                            Toast.makeText(getApplicationContext(), "Failed to send verification email: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
 
     }
+
 }

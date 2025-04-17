@@ -1,11 +1,13 @@
 package com.example.smartbuspayment;
 
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.Manifest;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -17,7 +19,10 @@ import android.content.Intent;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.firestore.WriteBatch;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 
@@ -48,14 +53,20 @@ public class MainActivity2 extends AppCompatActivity {
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 100;
     private static final int IMAGE_CAPTURE_ACTION_REQUEST=101;
     ImageView imageViewCaptured;
-    private TextView balanceTextView;
+
     private Spinner stationSpinner;
     private FirebaseFirestore db;
     private String currentUserId;
     private Button showTransactions;
     private FloatingActionButton scanpay;
-    private double balance=0.0;
+
+    private TextView balanceTextView;
     private double temppay=0;
+    final double PRICEFORPAYMENT=1;
+
+    private SharedPreferences sharedPreferences;
+    private static final String PREFS_NAME = "PaymentPrefs";
+    private static final String TEMP_PAY_KEY = "temp_pay";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +87,10 @@ public class MainActivity2 extends AppCompatActivity {
         // Initialize Firestore
         db = FirebaseFirestore.getInstance();
         currentUserId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+
+        // Initialize SharedPreferences
+        sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        temppay = sharedPreferences.getFloat(TEMP_PAY_KEY, 0.0f);
 
         // Initialize views
         balanceTextView = findViewById(R.id.balance);
@@ -100,23 +115,41 @@ public class MainActivity2 extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        recoverPendingPayments();
+
+    }
+    private void recoverPendingPayments() {
+        while (temppay>0){
+            makePayment(true);
+        }
+    }
+    private void saveTempPayment() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putFloat(TEMP_PAY_KEY, (float) temppay);
+        editor.apply();
+    }
+
+
     private void scanQRCode(){
         ScanOptions options = new ScanOptions();
         options.setPrompt("Scan a QR Code");
         options.setBeepEnabled(true);
         /*options.setBarcodeImageEnabled(true);*/
         options.setOrientationLocked(false);
-        launch(options);
+        barcodeLauncher.launch(options);
 
     }
-    private void launch(Object o){
+
         final androidx.activity.result.ActivityResultLauncher<ScanOptions> barcodeLauncher = registerForActivityResult(
                 new ScanContract(),
                 result -> {
-                    if (result.getContents() != null) {
-                        String scannedData = result.getContents();
+                    if (result.getContents().toString() != null) {
+                        String scannedData = result.getContents().toString();
                         if (scannedData.equals("payforbus")) {
-                            makePayment();
+                            makePayment(false);
                             Toast.makeText(this, "Correct QR Code Found!", Toast.LENGTH_LONG).show();
                         } else {
                             Toast.makeText(this, "Invalid QR Code", Toast.LENGTH_LONG).show();
@@ -124,8 +157,8 @@ public class MainActivity2 extends AppCompatActivity {
                     }
                 }
         );
-        barcodeLauncher.launch((ScanOptions) o);
-    }
+
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -183,18 +216,94 @@ public class MainActivity2 extends AppCompatActivity {
                 return;
             }
             if (documentSnapshot != null && documentSnapshot.exists()) {
-                balance = documentSnapshot.getDouble("balance");
-                if (balance != 0.0) {
+               Double  balance = documentSnapshot.getDouble("balance");
+                if (balance != null ) {
                     balanceTextView.setText(String.format("%.2f", balance));
                 }
             }
         });
     }
+    private void makePayment(boolean resubmit) {
+        String balanceText = balanceTextView.getText().toString().trim();
+        if (balanceText.isEmpty()) {
+            Toast.makeText(this, "Unable to get current balance", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        try{
+            double currentBalance = Double.parseDouble(balanceText);
+
+            if (currentBalance < PRICEFORPAYMENT) {
+                Toast.makeText(this, "You don't have enough balance", Toast.LENGTH_LONG).show();
+                return;
+            }
+            // Calculate new balance
+            double newBalance = currentBalance - PRICEFORPAYMENT;
+
+            // Create transaction data
+            Map<String, Object> transaction = new HashMap<>();
+            transaction.put("amount", PRICEFORPAYMENT);
+            transaction.put("timestamp", FieldValue.serverTimestamp());
+            transaction.put("type", "payment");
+            transaction.put("busId", "Bus_001");
+
+            // Create user data update
+            Map<String, Object> userData = new HashMap<>();
+            userData.put("balance", newBalance);
+
+            // Get references
+            DocumentReference userRef = db.collection("agents").document(currentUserId);
+            CollectionReference transactionsRef = userRef.collection("transactions");
+
+            // Create batch write to ensure both operations succeed or fail together
+            WriteBatch batch = db.batch();
+
+            batch.update(userRef, userData);
+
+            // Add transaction record to user's transactions subcollection
+            DocumentReference newTransactionRef = transactionsRef.document();
+            batch.set(newTransactionRef, transaction);
+
+            if(resubmit==false)
+                temppay+=1;
+
+
+            // Execute batch
+            batch.commit()
+                    .addOnSuccessListener(aVoid -> {
+                        // Update UI
+                        balanceTextView.setText(String.format("%.2f", newBalance));
+                        Toast.makeText(this, "Payment successful!", Toast.LENGTH_SHORT).show();
+
+                        // Clear temp payment
+                        temppay -= 1;
+                        saveTempPayment();
+                    })
+                    .addOnFailureListener(e -> {
+                        // Store the failed payment temporarily
+                        saveTempPayment();
+
+                        Toast.makeText(this, "Payment failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Log.e("Payment", "Error processing payment", e);
+                    });
+
+
+
+        }catch (NumberFormatException e) {
+            Toast.makeText(this, "Error processing balance", Toast.LENGTH_SHORT).show();
+            Log.e("Payment", "Number format error", e);
+        }catch (Exception e){
+            Log.e("Exception","Check The Type of exception",e);
+        }
+
+    }
+
+
     private void setupStationSpinner() {
         db.collection("stations").get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        ArrayList<String> stationNames = new ArrayList<>();
+                        List<String> stationNames = new ArrayList<>();
                         stationNames.add("Select a station");
 
                         for (DocumentSnapshot doc : task.getResult()) {
@@ -212,36 +321,6 @@ public class MainActivity2 extends AppCompatActivity {
                 });
     }
 
-    //uploading transaction is missing in makePayment()
-    private void makePayment() {
-
-        if (balance>1){
-            temppay+=1;
-            balance-=temppay;
-            // Create a Map with the data to update
-            Map<String, Object> userData = new HashMap<>();
-            userData.put("balance", balance);
-            // Update Firestore document
-            db.collection("agents").document(currentUserId)
-                    .set(userData, SetOptions.merge()) // merge() preserves fields not in this update
-                    .addOnSuccessListener(aVoid -> {
-
-                       temppay=0;
-                        Toast.makeText(this, "Payment Done!", Toast.LENGTH_SHORT).show();
-                    })
-                    .addOnFailureListener(e -> {
-                        balance+=temppay;
-                        Toast.makeText(this, "Error Charging Balance: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        Log.e("Firestore", "Error writing document", e);
-
-                    });
-
-
-       }else {
-            Toast.makeText(this,"You donot have enough balance",Toast.LENGTH_LONG).show();
-        }
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

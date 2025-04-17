@@ -15,9 +15,13 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.firestore.WriteBatch;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,7 +34,7 @@ public class ChargeBalance extends AppCompatActivity {
     private double currentBalance = 0.0;
     private FirebaseFirestore db;
     private String userId;
-    private  Double totalBalance;
+    private  Double totalBalance=0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,15 +53,18 @@ public class ChargeBalance extends AppCompatActivity {
         incrementBtn=findViewById(R.id.btn_increment);
         decrementBtn=findViewById(R.id.btn_decrement);
         confirmBtn=findViewById(R.id.btn_confirm);
-        totalBalance=Double.parseDouble(balanceText.getText().toString());
+
 
         //init firebase
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseFirestore.getInstance();
-        userId = user.getUid();
-
-        // Load user data
-        loadUserData();
+        if(user!=null){
+            userId = user.getUid();
+            // Load user data
+            loadUserData();
+        }else {
+            Toast.makeText(getApplicationContext(),"User not logged in",Toast.LENGTH_LONG).show();
+        }
 
         // Increment button click listener
         incrementBtn.setOnClickListener(v -> {
@@ -80,6 +87,8 @@ public class ChargeBalance extends AppCompatActivity {
         confirmBtn.setOnClickListener(v -> {
             if(currentBalance>0)
                 updateBalance();
+            else
+                Toast.makeText(getApplicationContext(),"You can't discharge your balance",Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -96,24 +105,54 @@ public class ChargeBalance extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
-                            balanceText.setText(String.format("$%.2f", document.getDouble("balance")));
+                            Double firestoreBalance=document.getDouble("balance");
+                            totalBalance=firestoreBalance!=null? firestoreBalance:0.0;
+                            balanceText.setText(String.format("$%.2f", totalBalance));
+                        } else {
+                            Toast.makeText(getApplicationContext(),"User Data not found",Toast.LENGTH_LONG).show();
                         }
+                    }else {
+                        Toast.makeText(this, "Failed to load user data", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
     //uploading transaction for the updateBalance is missing
     private void updateBalance(){
-        totalBalance+=Double.parseDouble(balanceEditText.getText().toString());
+        // Remove the $ symbol and parse the number
+        String input = balanceEditText.getText().toString().replace("$", "").trim();
+
+        double addedAmount = Double.parseDouble(input);
+        totalBalance+=addedAmount;
         // Create a Map with the data to update
         Map<String, Object> userData = new HashMap<>();
         userData.put("balance", totalBalance);
 
+        // In ChargeBalance.java's updateBalance() method:
+        Map<String, Object> transaction = new HashMap<>();
+        transaction.put("amount", addedAmount);
+        transaction.put("type", "charging");
+        transaction.put("timestamp", FieldValue.serverTimestamp());
+
+        DocumentReference userRef = db.collection("agents").document(userId);
+        CollectionReference transactionsRef = userRef.collection("transactions");
+
+        // Create batch write to ensure both operations succeed or fail together
+        WriteBatch batch = db.batch();
+
+        batch.update(userRef, userData);
+
+        // Add transaction record to user's transactions subcollection
+        DocumentReference newTransactionRef = transactionsRef.document();
+        batch.set(newTransactionRef, transaction);
+
         // Update Firestore document
-        db.collection("agents").document(userId)
-                .set(userData, SetOptions.merge()) // merge() preserves fields not in this update
+        batch.commit()
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, "Balance Charged Successfully!", Toast.LENGTH_SHORT).show();
+                    currentBalance=0.0;
+                    balanceEditText.setText("");
+                    balanceText.setText(String.format("$%.2f",totalBalance));
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(this, "Error Charging Balance: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -121,7 +160,5 @@ public class ChargeBalance extends AppCompatActivity {
                 });
 
     }
-
-
 
 }
