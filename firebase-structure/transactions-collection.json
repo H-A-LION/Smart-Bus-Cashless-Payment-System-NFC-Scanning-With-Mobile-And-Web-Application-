@@ -4,7 +4,7 @@
   "cardId": "string", // NFC card ID (if used)
   "amount": "number", // Transaction amount
   "type": "string", // "payment" or "top-up"
-  "stationId": "string", // Station where the transaction occurred
+
   "busId": "string", // Bus ID (if applicable)
   "timestamp": "timestamp" // Transaction time
 }
