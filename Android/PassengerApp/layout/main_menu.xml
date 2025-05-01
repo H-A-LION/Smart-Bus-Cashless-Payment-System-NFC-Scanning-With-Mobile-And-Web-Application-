@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<!-- Profile Menu Item -->
+<item
+    android:id="@+id/menu_profile"
+    android:title="Profile"
+    android:icon="@android:drawable/ic_menu_manage"
+    app:showAsAction="never"
+
+    />
+    <!-- Optional: Charge Account Menu Item -->
+    <item
+    android:id="@+id/menu_charge"
+    android:title="Charge Account"
+    android:icon="@android:drawable/ic_menu_upload"
+    app:showAsAction="never"
+
+    />
+    <!-- Logout Menu Item -->
+    <item
+        android:id="@+id/menu_logout"
+        android:title="Logout"
+        android:icon="@android:drawable/ic_lock_power_off"
+        app:showAsAction="never"
+
+        />
+</menu>
