@@ -1,0 +1,105 @@
+/* Form Styles */
+.form-group {
+    margin-bottom: 15px;
+    }
+    
+    .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    }
+    
+    .form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+    }
+    
+    .form-group-radio label {
+    margin-bottom: 5px;
+    font-weight: 600;
+    }
+    
+    .form-group-radio input {
+    width: auto;
+    margin-right: 5px;
+    }
+    
+    #roletitle,
+    #statustitle {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    }
+    
+    .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+    }
+    
+    .search-box {
+    flex: 1;
+    position: relative;
+    }
+    
+    .search-box i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gray-color);
+    }
+    
+    .search-box input {
+    width: 100%;
+    padding: 10px 15px 10px 35px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    }
+    
+    .form-control {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    min-width: 150px;
+    }
+    
+    /* Password strength styles */
+    .password-strength-meter {
+    display: flex;
+    gap: 2px;
+    margin-top: 5px;
+    height: 4px;
+    }
+    
+    .strength-bar {
+    flex:1;
+    background-color: #e0e0e0;
+    transition: background-color 0.3s ease;
+    }
+    
+    .password-feedback {
+    font-size: 0.8rem;
+    margin-top: 5px;
+    min-height: 1rem;
+    }
+    
+    /* Password strength colors */
+    .weak { color: #d32f2f; }
+    .moderate { color: #ffa000; }
+    .strong { color: #388e3c; }
+    .very-strong { color: #00796b; }
+    

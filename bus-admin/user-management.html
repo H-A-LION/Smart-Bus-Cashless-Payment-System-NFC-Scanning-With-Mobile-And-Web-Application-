@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Users Management - SmartBus</title>
+  <link rel="stylesheet" href="css/common/base.css">
+  <link rel="stylesheet" href="css/common/header.css">
+  <link rel="stylesheet" href="css/common/forms.css">
+  <link rel="stylesheet" href="css/common/tables.css">
+  <link rel="stylesheet" href="css/common/modals.css">
+  <!-- <link rel="stylesheet" href="css/style.css"> -->
+   <link rel="stylesheet" href="css/pages/user-management.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+</head>
+<body>
+  <header class="admin-header">
+    <div class="header-left">
+      <img src="images/logo.png" alt="SmartBus Logo" class="logo">
+      <h1>Users Management</h1>
+    </div>
+    <div class="header-right">
+      <button onclick="location.href='admin-dashboard.html'">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+      </button>
+    </div>
+  </header>
+
+  <main class="management-container">
+    <div class="management-actions">
+      <button id="refreshAgentsBtn" class="btn-secondary">
+        <i class="fas fa-sync-alt"></i> Refresh
+      </button>
+      <button id="exportAgentsBtn" class="btn-secondary">
+        <i class="fas fa-file-export"></i> Export
+      </button>
+    </div>
+
+    <div class="search-filter">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="agentSearch" placeholder="Search users...">
+      </div>
+      <select id="filterStatus" class="form-control">
+        <option value="">All Status</option>
+        <option value="active">Active</option>
+        <option value="inactive">Inactive</option>
+      </select>
+    </div>
+
+    <table id="agentsTable" class="display">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Balance</th>
+          <th>Status</th>
+          <th>Actions</th>
+          
+        
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Data will be loaded dynamically -->
+      </tbody>
+    </table>
+
+    <div class="pagination-info" id="paginationInfo"></div>
+  </main>
+
+  <!-- Edit User Modal -->
+  <div id="editUserModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Edit User</h2>
+      <form id="editAgentForm">
+        <input type="hidden" id="editAgentId">
+        
+        <div class="form-group">
+          <label for="editAgentName">Full Name</label>
+          <input type="text" id="editAgentName" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="editAgentEmail">Email</label>
+          <input type="email" id="editAgentEmail" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="editAgentPhone">Phone</label>
+          <input type="tel" id="editAgentPhone" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="editAgentBalance">Balance</label>
+          <input type="number" id="editAgentBalance" min="0" step="0.01" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="editAgentStatus">Status</label>
+          <select id="editAgentStatus" required>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
+        
+        <div class="form-actions">
+          
+          <button type="button" class="btn-secondary" id="cancelEditBtn">Cancel</button>
+          <button type="submit" class="btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Charge User Modal -->
+  <div id="chargeUserModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Charge User Balance</h2>
+      <form id="chargeAgentForm">
+        <input type="hidden" id="chargeAgentId">
+        
+        <div class="form-group">
+          <p id="currentBalance">Current Balance: Loading...</p>
+          <label for="chargeAmount">Amount to Add</label>
+          <input type="number" id="chargeAmount" min="0" step="0.01" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="chargeNotes">Notes (Optional)</label>
+          <textarea id="chargeNotes" rows="3"></textarea>
+        </div>
+        
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" id="cancelChargeBtn">Cancel</button>
+          <button type="submit" class="btn-primary">Process Charge</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+  <script src="js/main.js" type="module"></script>
+  <!-- <script type="module" src="js/agent.js"></script> -->
+</body>
+</html>

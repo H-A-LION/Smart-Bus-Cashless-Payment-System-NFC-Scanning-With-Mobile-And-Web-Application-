@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bus Management - Admin Login</title>
+  <link rel="stylesheet" href="css/login.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-header">
+      <img src="images/logo.png" alt="SmartBus Logo" class="logo">
+      <h1>Admin Portal</h1>
+    </div>
+    
+    <form id="loginForm" autocomplete="on">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="password-input">
+          <input type="password" id="password" name="password" required>
+          <i class="fas fa-eye toggle-password" id="toggle-password"></i>
+        </div>
+        
+        </div> 
+
+        
+
+      <button type="submit" class="login-btn" id="submitBtn" >Login</button>
+    </form>
+    <div class="form-footer">
+      <a href="forgot-password.html">Forgot Password?</a>
+    </div>
+  </div>
+  
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

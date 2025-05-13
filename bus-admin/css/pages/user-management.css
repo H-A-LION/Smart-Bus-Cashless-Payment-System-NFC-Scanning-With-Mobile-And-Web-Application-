@@ -1,0 +1,19 @@
+/* Agent Management Specific Styles */
+.management-actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    }
+    
+    .search-filter {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    }
+    
+    @media (max-width: 768px) {
+    .search-filter {
+    flex-direction: column;
+    gap: 10px;
+    }
+    }

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartBus - Map Management</title>
+  <link rel="stylesheet" href="css/map.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+        
+        
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+  <header class="map-header">
+    <div class="header-left">
+      <h1 id="mapTitle">Map Management</h1>
+      <p id="mapSubtitle">Manage transportation system elements</p>
+    </div>
+    <div class="header-right">
+      <button onclick="location.href='osm-api.html'">
+        <i class="fas fa-arrow-right"></i> Choose Map Interface
+      </button>
+    </div>
+  </header>
+
+  <main class="map-container">
+    <div class="map-controls">
+      <div class="control-group" id="stationControls" style="display:none;">
+        <button id="addStationBtn" class="btn-primary">
+          <i class="fas fa-plus"></i> Add Station
+        </button>
+        <br>
+        <button id="editStationsBtn" class="btn-secondary">
+          <i class="fas fa-edit"></i> Edit Stations
+        </button>
+      </div>
+
+      <div class="control-group" id="busControls" style="display:none;">
+        <button id="refreshBusesBtn" class="btn-secondary">
+          <i class="fas fa-sync-alt"></i> Refresh Buses
+        </button>
+      </div>
+
+      <div class="control-group" id="routeControls" style="display:none;">
+        <!-- ADDED: Route creation button and status -->
+        <button id="createRouteBtn" class="btn-primary">
+          <i class="fas fa-plus"></i> Create Route
+        </button>
+        <p id="routeStatus" style="margin: 5px 0; font-size: 12px; color: #666;"></p>
+        <select id="routeSelect" class="form-control">
+          <option value="">Select a route</option>
+        </select>
+      </div>
+      <!-- Add this with the other control groups -->
+    <div class="control-group" id="lineControls" style="display:none;">
+  <button id="createLineBtn" class="btn-primary">
+    <i class="fas fa-plus"></i> Create Line
+  </button>
+  <div class="line-form" style="margin-top: 10px;">
+    <input type="text" id="lineName" placeholder="Line name" class="form-control">
+    <p id="lineStatus" style="margin: 5px 0; font-size: 12px; color: #666;"></p>
+    <div style="display: flex; gap: 5px;">
+      <button id="saveLineBtn" class="btn-primary" style="flex:1;">Save</button>
+      <button id="cancelLineBtn" class="btn-secondary" style="flex:1;">Cancel</button>
+    </div>
+  </div>
+    </div>
+    </div>
+    <div id="map"></div>
+  </main>
+
+  <!-- Station Modal -->
+  <div id="stationModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2 id="modalTitle">Add New Station</h2>
+      <form id="stationForm">
+        <div class="form-group">
+          <label for="stationName">Station Name</label>
+          <input type="text" id="stationName" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="stationRoute">Route</label>
+          <select id="stationRoute" class="form-control">
+            <option value="">Select Route</option>
+          </select>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="stationLat">Latitude</label>
+            <input type="number" id="stationLat" step="0.000001" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="stationLng">Longitude</label>
+            <input type="number" id="stationLng" step="0.000001" required>
+          </div>
+        </div>
+        
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" id="cancelStationBtn">Cancel</button>
+          <button type="submit" class="btn-primary">Save Station</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- SideBar Modal -->
+  <div id="editSidebar" class="edit-sidebar">
+  <div class="sidebar-header">
+    <h3>Station Management</h3>
+    <button id="closeSidebar">&times;</button>
+  </div>
+  <div class="sidebar-content">
+    <form id="stationEditForm">
+      <input type="hidden" id="editStationId">
+      
+      <div class="form-group">
+        <label for="editStationName">Name</label>
+        <input type="text" id="editStationName" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="editStationRoute">Route</label>
+        <select id="editStationRoute" class="form-control"></select>
+      </div>
+      
+      <div class="form-actions">
+        <button type="submit" id="updateStationBtn" class="btn-primary">Save</button>
+        <button type="button" id="deleteStationBtn" class="btn-danger">Delete</button>
+      </div>
+    </form>
+  </div>
+  </div>
+  
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+  <script src="js/main.js" type="module"></script>
+  <!-- Add this script at the end of the body -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initialize route creation button
+    const createRouteBtn = document.getElementById('createRouteBtn');
+    if (createRouteBtn) {
+      createRouteBtn.addEventListener('click', function() {
+        // This will be handled by the route-manager's setupRouteManagement
+      });
+    }
+  });
+  </script>
+</body>
+</html>

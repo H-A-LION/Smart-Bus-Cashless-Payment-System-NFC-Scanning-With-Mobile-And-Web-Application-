@@ -1,0 +1,22 @@
+make sure my code can asign lines for buses,
+
+- where lines will be collection in firestore that contain 2 arrays.
+  **first array must be array of stations for line on map,
+  **second array is routes that contain points that connection of them represent the streat from station to another.
+
+- make sure to let me add lines and routes:
+  ** For lines i must have button to addline and when click it i select stations markers from map and they add in line array with suggestion from you to name the line and edit it,
+  **and i suggest the following to the route work algorithm : right click on current station on map then select to create route ,then line is connected from my cursor to station ,then on each left click point is add in the routes array seeing the connection between cursor and selected points by click then to finish creating a route for a line i must right click or connect to another station.
+  \*\*also offer deleting routes on selecting it by mouse and click delete or by launching some options.
+
+       {
+
+  name: "Line Name",
+  stations: ["A", "B", "C", "D"], // All stations
+  routes: [
+  {from: "A", to: "B", path: [GeoPoint, GeoPoint, ...]},
+  {from: "B", to: "C", path: [GeoPoint, GeoPoint, ...]},
+  {from: "C", to: "D", path: [GeoPoint, GeoPoint, ...]}
+  ],
+  createdAt: Timestamp
+  }

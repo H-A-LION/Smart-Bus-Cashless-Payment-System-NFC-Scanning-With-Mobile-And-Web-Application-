@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register User - SmartBus</title>
+  <link rel="stylesheet" href="css/common/base.css">
+  <link rel="stylesheet" href="css/common/header.css">
+  <link rel="stylesheet" href="css/common/forms.css">
+  <link rel="stylesheet" href="css/common/tables.css">
+  <link rel="stylesheet" href="css/common/modals.css">
+  <link rel="stylesheet" href="css/pages/register-user.css">
+
+  <!-- <link rel="stylesheet" href="css/style.css"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+  <script>
+    // Add event listener for verification buttons
+document.querySelectorAll('.verify-btn').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    const userId = btn.dataset.id;
+    const email = btn.dataset.email;
+    if (confirm(`Send verification email to ${email}?`)) {
+      await verifyAgentEmail(userId, email);
+    }
+  });
+});
+  </script>
+</head>
+<body>
+  <header class="admin-header">
+    <div class="header-left">
+      <img src="images/logo.png" alt="SmartBus Logo" class="logo">
+      <h1>Register New User</h1>
+    </div>
+    <div class="header-right">
+      <button onclick="location.href='admin-dashboard.html'">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+      </button>
+    </div>
+  </header>
+
+  <main class="form-container">
+    <form id="agentForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="agentName">Full Name</label>
+          <input type="text" id="agentName" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="agentEmail">Email</label>
+          <input type="email" id="agentEmail" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" required>
+          <div class="password-strength-meter">
+            <div class="strength-bar"></div>
+            <div class="strength-bar"></div>
+            <div class="strength-bar"></div>
+            <div class="strength-bar"></div>
+          </div>
+          <div id="confirm-feedback" class="password-feedback"></div>
+        </div>
+        
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input type="password" id="confirmPassword" min="0" step="0.01" required>
+          <div id="confirm-feedback" class="password-feedback"></div>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="agentPhone">Phone Number</label>
+          <input type="tel" id="agentPhone" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="agentBalance">Initial Balance</label>
+          <input type="number" id="agentBalance" min="0" step="0.01" required>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group-radio">
+          <label id="roletitle">Role</label>
+
+          <input type="radio" id="admin" name="role" value="Admin">
+          <label for="admin">Admin</label>
+          <input type="radio" id="agent" name="role" value="Agent" checked>
+          <label for="agent">Passenger</label>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group-radio">
+          <label id="statustitle">Status</label>
+          <input type="radio" id="active" name="status" value="active" checked>
+          <label for="active">Active</label>
+          <input type="radio" id="inactive" name="status" value="inactive">
+          <label for="inactive">Inactive</label>
+        </div>
+      </div>
+
+
+      <div class="form-actions">
+        <button class="verify-btn" data-id="${userId}" data-email="${email}">Verify Email</button>
+        <button type="reset" class="btn-secondary">Clear</button>
+        <button type="submit" class="btn-primary">Register User</button>
+        <!-- In your agent list table -->
+        
+      </div>
+    </form>
+  </main>
+  
+  <!-- <script type="module" src="js/agent.js"></script> -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+  <script src="js/main.js" type="module"></script>
+</body>
+</html>
